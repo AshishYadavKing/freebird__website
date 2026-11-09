@@ -1,26 +1,95 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Free Bird design tokens — from the approved style guide (round 3).
+ * Mostly white; Ink is reserved for the photo hero, featured plan,
+ * free-pass band and footer. Bright orange is for button fills only
+ * (with Ink text); orange TEXT on white uses Ember for contrast.
+ */
+@theme {
+  --color-white: #ffffff;
+  --color-mist: #f4f6fa;
+  --color-line: #e3e7ee;
+  --color-line-strong: #cdd3dd;
+  --color-ink: #0a0d14;
+  --color-ink-soft: #2d3748;
+  --color-muted: #4a5568;
+  --color-subtle: #5f6b7d;
+
+  --color-fire: #ff6a00;
+  --color-fire-light: #ff8a3d;
+  --color-ember: #c24e00;
+  --color-sky: #1b5fb4;
+  --color-sky-tint: #e6f1ff;
+  --color-go: #0e7a44;
+  --color-go-tint: #e3f6ec;
+
+  /* Ink-side (dark sections) */
+  --color-ink-surface: #121722;
+  --color-ink-line: #1e2635;
+  --color-ink-text: #f3f5f9;
+  --color-ink-muted: #a3adbf;
+
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-barlow), "Arial Narrow", sans-serif;
+
+  --radius-input: 10px;
+  --radius-button: 12px;
+  --radius-card: 20px;
+
+  --shadow-fire: 0 8px 22px rgb(255 106 0 / 0.38), inset 0 -2px 0 rgb(10 13 20 / 0.18);
+  --shadow-lift: 0 18px 40px rgb(10 13 20 / 0.1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-white);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.55;
 }
+
+:focus-visible {
+  outline: 3px solid var(--color-sky);
+  outline-offset: 2px;
+}
+
+/* Shared building blocks (match the approved style guide) */
+@layer components {
+  .container-site { @apply mx-auto w-full max-w-[1280px] px-4 sm:px-6; }
+  .eyebrow { @apply font-display text-base font-bold uppercase tracking-[0.14em] text-ember; }
+  .h-display { @apply font-display font-extrabold uppercase leading-[0.95]; }
+  .h-section { @apply font-display text-4xl font-extrabold uppercase leading-none sm:text-5xl; }
+  .lead { @apply text-lg text-ink-soft; }
+
+  .btn-primary, .btn-secondary, .btn-dark, .btn-light {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-[var(--radius-button)] px-5 py-3 text-base font-bold transition disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primary { @apply bg-fire text-ink shadow-[var(--shadow-fire)] hover:bg-fire-light; }
+  .btn-secondary { @apply border-2 border-ink bg-white text-ink hover:bg-mist; }
+  .btn-dark { @apply bg-ink text-white hover:bg-ink-soft; }
+  .btn-light { @apply bg-white text-ink shadow-[0_8px_22px_rgb(0_0_0/0.35)] hover:bg-mist; }
+
+  .card { @apply rounded-[var(--radius-card)] border border-line bg-white p-6 sm:p-8; }
+  .card-dark { @apply rounded-[var(--radius-card)] border-2 border-fire bg-ink p-6 text-ink-text shadow-[var(--shadow-lift)] sm:p-8; }
+
+  .field-label { @apply flex flex-col gap-1.5 text-sm font-semibold text-ink-soft; }
+  .field { @apply w-full rounded-[var(--radius-input)] border border-line-strong bg-white px-3.5 py-3 text-base text-ink placeholder:text-subtle focus:border-sky focus:outline-none focus:ring-2 focus:ring-sky/30; }
+  .field-error { @apply text-sm font-medium text-red-700; }
+
+  .pill { @apply inline-flex items-center rounded-full px-3 py-1 text-[13px] font-semibold; }
+}
+
+/* Rich text from the CRM (legal pages, plan descriptions) */
+.prose-crm h1, .prose-crm h2, .prose-crm h3 { font-family: var(--font-display); text-transform: uppercase; font-weight: 800; line-height: 1.05; margin: 1.6em 0 0.5em; }
+.prose-crm h1 { font-size: 2.25rem; }
+.prose-crm h2 { font-size: 1.75rem; }
+.prose-crm h3 { font-size: 1.35rem; }
+.prose-crm p, .prose-crm ul, .prose-crm ol { margin: 0 0 1em; color: var(--color-ink-soft); }
+.prose-crm ul { list-style: disc; padding-left: 1.4em; }
+.prose-crm ol { list-style: decimal; padding-left: 1.4em; }
+.prose-crm a { color: var(--color-sky); text-decoration: underline; }
+.prose-crm * { color: inherit !important; text-align: left !important; font-family: inherit; }
