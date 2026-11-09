@@ -1,15 +1,7 @@
 import { PageHero } from "@/components/PageHero";
 import { getLegal } from "@/lib/crm";
+import { sanitizeHtml as sanitize } from "@/lib/sanitize";
 import { SITE } from "@/lib/site";
-
-/** Remove scripts, inline handlers and javascript: links from CRM-authored HTML. */
-function sanitize(html: string): string {
-  return html
-    .replace(/<\s*(script|style|iframe|object|embed|form)[^>]*>[\s\S]*?<\s*\/\s*\1\s*>/gi, "")
-    .replace(/<\s*(script|style|iframe|object|embed|link|meta)[^>]*\/?>/gi, "")
-    .replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi, "")
-    .replace(/(href|src)\s*=\s*("|')\s*javascript:[^"']*\2/gi, '$1="#"');
-}
 
 export async function LegalPage({ kind, title }: { kind: "privacy" | "terms" | "refund"; title: string }) {
   const html = await getLegal(kind);

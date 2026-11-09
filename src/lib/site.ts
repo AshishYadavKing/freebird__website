@@ -73,6 +73,7 @@ export const NAV = [
   { href: "/badminton", label: "Badminton" },
   { href: "/store", label: "Store" },
   { href: "/locations", label: "Locations" },
+  { href: "/articles", label: "Articles" },
   { href: "/about", label: "About" },
 ];
 

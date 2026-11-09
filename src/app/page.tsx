@@ -3,7 +3,8 @@ import Link from "next/link";
 import { ClubCard } from "@/components/ClubCard";
 import { FreePassForm } from "@/components/forms/Forms";
 import { PlanCard, tiersOf } from "@/components/PlanCard";
-import { getClubs, getPlans } from "@/lib/crm";
+import { ArticleCard } from "@/components/ArticleCard";
+import { getArticles, getClubs, getPlans } from "@/lib/crm";
 import { SITE } from "@/lib/site";
 
 export const revalidate = 300;
@@ -21,6 +22,7 @@ export default async function Home() {
   const options = clubs.filter((c) => c.branch).map((c) => ({ id: c.branch!.id, label: c.club.name }));
   const planClub = clubs.find((c) => c.branch?.online_membership_sales) ?? clubs.find((c) => c.branch);
   const tiers = planClub?.branch ? tiersOf((await getPlans(planClub.branch.id)).membership).slice(0, 3) : [];
+  const articles = (await getArticles({ perPage: 3 })).articles;
 
   return (
     <>
@@ -117,6 +119,22 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* Latest articles (only when some are published) */}
+      {articles.length > 0 && (
+        <section className="container-site pt-20">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+            <div className="flex flex-col gap-2">
+              <p className="eyebrow">From our coaches</p>
+              <h2 className="h-section">Latest articles</h2>
+            </div>
+            <Link href="/articles" className="font-semibold text-sky hover:underline">All articles →</Link>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {articles.map((a) => <ArticleCard key={a.slug} a={a} />)}
+          </div>
+        </section>
+      )}
 
       {/* Free pass */}
       <section className="container-site py-20">

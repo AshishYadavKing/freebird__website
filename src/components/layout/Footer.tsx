@@ -11,6 +11,7 @@ const LINKS = [
   { href: "/online-training", label: "Online training" },
   { href: "/high-spirits-studio", label: "High Spirits Studio" },
   { href: "/transformations", label: "Transformations" },
+  { href: "/articles", label: "Articles" },
   { href: "/calorie-calculator", label: "Calorie calculator" },
   { href: "/careers", label: "Careers" },
   { href: "/contact", label: "Contact" },

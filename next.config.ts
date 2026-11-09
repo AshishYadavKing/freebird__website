@@ -1,4 +1,9 @@
+import { loadEnvConfig } from "@next/env";
 import type { NextConfig } from "next";
+
+// next.config is evaluated before Next loads .env files, so load them here:
+// FREEBIRD_API_URL decides which host may serve article photos.
+loadEnvConfig(process.cwd());
 
 /** Old PHP site URLs → new pages (301), so search rankings and saved links keep working. */
 const LEGACY: Record<string, string> = {
@@ -40,9 +45,24 @@ const securityHeaders = [
   { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" },
 ];
 
+/** Article photos are served by the CRM (…/storage/…): allow that host for next/image. */
+function crmImageHosts() {
+  const api = new URL(process.env.FREEBIRD_API_URL ?? "http://127.0.0.1:8001/api/v1");
+  const hosts = [{ protocol: api.protocol.replace(":", "") as "http" | "https", hostname: api.hostname, port: api.port, pathname: "/storage/**" }];
+  // Local development: Laravel's APP_URL is usually localhost while the API is reached via 127.0.0.1.
+  if (api.hostname === "127.0.0.1") hosts.push({ ...hosts[0], hostname: "localhost" });
+  return hosts;
+}
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
-  images: { formats: ["image/avif", "image/webp"] },
+  images: {
+    formats: ["image/avif", "image/webp"],
+    remotePatterns: crmImageHosts(),
+    // Next blocks images from private/loopback IPs (SSRF guard). Only relax that when the CRM
+    // itself runs on this machine (local development); production uses a public hostname.
+    dangerouslyAllowLocalIP: ["127.0.0.1", "localhost"].includes(new URL(process.env.FREEBIRD_API_URL ?? "http://127.0.0.1").hostname),
+  },
   async redirects() {
     return Object.entries(LEGACY).map(([source, destination]) => ({ source, destination, permanent: true }));
   },
