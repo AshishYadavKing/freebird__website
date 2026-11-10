@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { FreePassForm, TRIAL_CLAIMED_KEY, type ClubOption } from "@/components/forms/Forms";
 
 const DISMISSED_KEY = "fb-free-trial-dismissed";
-const DELAY_MS = 12_000;           // show after 12 s on the site…
+const DELAY_MS = 3_000;            // show after 3 s on the site…
 const SNOOZE_DAYS = 14;            // …and not again for 2 weeks after closing it
 const HIDDEN_ON = [/^\/join/, /^\/free-pass/, /^\/bookings/, /^\/privacy/, /^\/terms/, /^\/refund-policy/];
 
