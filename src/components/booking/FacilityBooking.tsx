@@ -119,15 +119,17 @@ export function FacilityBooking({ facilities, kind }: { facilities: FacilityOpti
       <div>
         <h3 className="mb-3 font-bold">{longDate(day)}</h3>
         {slots === null ? (
-          <p className="text-muted" role="status">Loading times…</p>
+          <div role="status" aria-label="Loading times" className="grid grid-cols-3 gap-2 sm:grid-cols-5">
+          {Array.from({ length: 10 }, (_, i) => <span key={i} className="skeleton h-11" />)}
+        </div>
         ) : slots.filter((s) => s.available).length === 0 ? (
-          <p className="rounded-xl bg-mist px-4 py-3 text-ink-soft">No open times this day. Try another day.</p>
+          <p className="swap-in rounded-xl bg-mist px-4 py-3 text-ink-soft">No open times this day. Try another day.</p>
         ) : (
-          <div role="radiogroup" aria-label="Start time" className="grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-6">
+          <div role="radiogroup" aria-label="Start time" className="stagger grid grid-cols-3 gap-2 sm:grid-cols-5 lg:grid-cols-6">
             {slots.map((s) => (
               <button key={s.start} type="button" role="radio" aria-checked={s.start === start} disabled={!s.available}
                 onClick={() => { setStart(s.start); setCount(1); }}
-                className={`rounded-[10px] border-2 px-2 py-2.5 text-sm font-bold ${s.start === start ? "border-fire bg-fire text-ink" : s.available ? "border-line bg-white hover:border-ink" : "cursor-not-allowed border-line bg-mist text-subtle line-through"}`}>
+                className={`rounded-[10px] border-2 px-2 py-2.5 text-sm font-bold transition-colors duration-300 ${s.start === start ? "border-fire bg-fire text-ink" : s.available ? "border-line bg-white hover:border-ink" : "cursor-not-allowed border-line bg-mist text-subtle line-through"}`}>
                 {time12(s.start)}
               </button>
             ))}
@@ -136,7 +138,7 @@ export function FacilityBooking({ facilities, kind }: { facilities: FacilityOpti
       </div>
 
       {start && (
-        <form onSubmit={submit} noValidate className="relative grid gap-4 rounded-2xl border border-line p-5 sm:grid-cols-2 sm:p-6">
+        <form onSubmit={submit} noValidate className="swap-in relative grid gap-4 rounded-2xl border border-line p-5 sm:grid-cols-2 sm:p-6">
           <Honeypot />
           <p className="font-semibold sm:col-span-2">
             {facility.name} · {longDate(day)} · {time12(start)}

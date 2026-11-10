@@ -29,7 +29,7 @@ export function PlanCard({ tier, branchId, featured = false }: { tier: PlanTier;
   const href = `/join?club=${branchId}&plan=${plan.id}&price=${price.id}`;
 
   return (
-    <article className={`relative flex flex-col gap-5 ${featured ? "card-dark" : "card"}`}>
+    <article className={`relative flex flex-col gap-5 lift ${featured ? "card-dark" : "card"}`}>
       {featured && (
         <span className="absolute -top-3.5 left-6 rounded-full bg-fire px-3 py-1 text-xs font-extrabold uppercase tracking-[0.08em] text-ink">
           Most popular

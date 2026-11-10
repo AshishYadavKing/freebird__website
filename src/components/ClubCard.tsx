@@ -2,7 +2,7 @@ import type { Club } from "@/lib/site";
 
 export function ClubCard({ club }: { club: Club }) {
   return (
-    <article id={club.slug} className="card flex scroll-mt-28 flex-col gap-5">
+    <article id={club.slug} className="card lift flex scroll-mt-28 flex-col gap-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h3 className="font-display text-4xl font-extrabold uppercase">{club.name}</h3>
         <span className={`pill ${club.openNow247 ? "bg-go-tint text-go" : "bg-sky-tint text-sky"}`}>{club.tag}</span>

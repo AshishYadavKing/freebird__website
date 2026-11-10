@@ -75,7 +75,7 @@ export function FreeTrialPopup({ clubs }: { clubs: ClubOption[] }) {
       aria-labelledby="trial-title"
       onCancel={(e) => { e.preventDefault(); close(); }}
       onClick={(e) => { if (e.target === dialog.current) close(); }}
-      className="m-auto w-[min(640px,calc(100vw-2rem))] max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-[24px] p-0 text-ink shadow-2xl backdrop:bg-ink/70 backdrop:backdrop-blur-sm"
+      className="fx m-auto w-[min(640px,calc(100vw-2rem))] max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-[24px] p-0 text-ink shadow-2xl"
     >
       {mounted && (
       <div className="relative">

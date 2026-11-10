@@ -28,9 +28,9 @@ export default async function Home() {
     <>
       {/* Hero */}
       <section className="relative overflow-hidden bg-ink text-ink-text">
-        <Image src="/images/gym-floor.webp" alt="" fill priority sizes="100vw" className="object-cover opacity-60" />
+        <Image src="/images/gym-floor.webp" alt="" fill priority sizes="100vw" className="hero-photo object-cover opacity-60" />
         <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/75 to-ink/20" />
-        <div className="container-site relative flex flex-col gap-7 pb-20 pt-24 sm:pt-28">
+        <div className="hero-in container-site relative flex flex-col gap-7 pb-20 pt-24 sm:pt-28">
           <p className="font-display text-lg font-bold uppercase tracking-[0.14em] text-fire-light">{SITE.years} years of building muscle</p>
           <h1 className="h-display max-w-3xl text-6xl sm:text-8xl lg:text-[112px]">Fly with<br />high spirits.</h1>
           <p className="max-w-xl text-lg text-[#DDE2EA] sm:text-xl">

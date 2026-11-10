@@ -1,0 +1,187 @@
+/* ═════════════════════════════════════════════════════════════════════════════
+   Motion — calm, Apple-style: soft ease-out curves, short distances, only
+   opacity/transform (GPU-friendly). Everything is switched off for people who
+   ask their device to reduce motion.
+   ═════════════════════════════════════════════════════════════════════════════ */
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);       /* quick start, long gentle settle */
+  --ease-spring: cubic-bezier(0.34, 1.32, 0.64, 1); /* tiny overshoot for presses */
+  --dur-fast: 180ms;
+  --dur: 320ms;
+  --dur-slow: 900ms;
+}
+
+html { scroll-behavior: smooth; }
+
+/* ── Buttons: lift on hover, settle on press ─────────────────────────────────── */
+.btn-primary, .btn-secondary, .btn-dark, .btn-light {
+  transition: transform var(--dur-fast) var(--ease-out), background-color var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out), color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
+}
+@media (hover: hover) {
+  .btn-primary:hover:not(:disabled), .btn-secondary:hover:not(:disabled),
+  .btn-dark:hover:not(:disabled), .btn-light:hover:not(:disabled) { transform: translateY(-2px); }
+  .btn-primary:hover:not(:disabled) { box-shadow: 0 14px 30px rgb(255 106 0 / 0.38); }
+}
+.btn-primary:active:not(:disabled), .btn-secondary:active:not(:disabled),
+.btn-dark:active:not(:disabled), .btn-light:active:not(:disabled) {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 90ms;
+}
+
+/* Other clickable controls (chips, day/time pickers, tabs) get a soft press. */
+button:not([class*="btn-"]), [role="radio"], [role="tab"] {
+  transition: transform var(--dur-fast) var(--ease-spring), background-color var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out), color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
+}
+button:not([class*="btn-"]):active:not(:disabled), [role="radio"]:active:not(:disabled) { transform: scale(0.96); }
+
+/* ── Cards: gentle float on hover ────────────────────────────────────────────── */
+a.card, .lift {
+  transition: transform 450ms var(--ease-out), box-shadow 450ms var(--ease-out), border-color var(--dur) var(--ease-out);
+}
+@media (hover: hover) {
+  a.card:hover, .lift:hover { transform: translateY(-6px); box-shadow: 0 24px 48px rgb(10 13 20 / 0.12); }
+}
+
+/* Images inside hovered cards zoom very slightly. */
+.zoom-on-hover { overflow: hidden; }
+.zoom-on-hover img { transition: transform 1000ms var(--ease-out); }
+@media (hover: hover) { .lift:hover .zoom-on-hover img, a:hover .zoom-on-hover img { transform: scale(1.05); } }
+
+/* ── Form fields ─────────────────────────────────────────────────────────────── */
+.field { transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out), background-color var(--dur) var(--ease-out); }
+.field:hover:not(:focus):not([aria-invalid="true"]) { border-color: var(--color-subtle); }
+input[type="checkbox"], input[type="radio"] { transition: transform var(--dur-fast) var(--ease-spring); }
+input[type="checkbox"]:active, input[type="radio"]:active { transform: scale(0.88); }
+
+/* ── Scroll reveal (MotionProvider adds .reveal, then .is-visible) ────────────── */
+.reveal { opacity: 0; transform: translate3d(0, 32px, 0); }
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* ── Page entrance (app/template.tsx) ────────────────────────────────────────── */
+@keyframes page-in { from { opacity: 0; transform: translate3d(0, 10px, 0); } to { opacity: 1; transform: none; } }
+.page-enter { animation: page-in 600ms var(--ease-out) both; }
+
+/* ── Hero: headline, text and buttons rise in one after another ──────────────── */
+@keyframes rise-in {
+  from { opacity: 0; transform: translate3d(0, 28px, 0); filter: blur(8px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+.hero-in > * { animation: rise-in 1100ms var(--ease-out) both; }
+.hero-in > *:nth-child(1) { animation-delay: 80ms; }
+.hero-in > *:nth-child(2) { animation-delay: 180ms; }
+.hero-in > *:nth-child(3) { animation-delay: 300ms; }
+.hero-in > *:nth-child(4) { animation-delay: 420ms; }
+.hero-in > *:nth-child(n + 5) { animation-delay: 540ms; }
+
+/* Hero photo settles from a slight zoom. */
+@keyframes settle { from { transform: scale(1.08); } to { transform: scale(1); } }
+.hero-photo { animation: settle 2600ms var(--ease-out) both; }
+
+/* ── Header: frosted glass once the page scrolls ─────────────────────────────── */
+.site-header { transition: background-color 400ms var(--ease-out), box-shadow 400ms var(--ease-out); }
+.site-header[data-scrolled="true"] {
+  background-color: rgb(255 255 255 / 0.78);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  box-shadow: 0 1px 0 rgb(10 13 20 / 0.06), 0 8px 24px rgb(10 13 20 / 0.06);
+}
+
+/* Nav links: underline slides in from the left. */
+.nav-link { position: relative; }
+.nav-link::after {
+  content: ""; position: absolute; left: 0.75rem; right: 0.75rem; bottom: 0.2rem; height: 2px; border-radius: 2px;
+  background: var(--color-fire); transform: scaleX(0); transform-origin: left; transition: transform 400ms var(--ease-out);
+}
+.nav-link:hover::after, .nav-link[aria-current="page"]::after { transform: scaleX(1); }
+
+/* Mobile menu: smooth height + staggered items. */
+.menu-panel { display: grid; grid-template-rows: 0fr; opacity: 0; visibility: hidden;
+  transition: grid-template-rows 450ms var(--ease-out), opacity 300ms var(--ease-out), visibility 0s linear 450ms; }
+.menu-panel[data-open="true"] { grid-template-rows: 1fr; opacity: 1; visibility: visible; transition-delay: 0s; }
+.menu-panel > div { overflow: hidden; min-height: 0; }
+@media (min-width: 64rem) { .menu-panel { display: none; } }
+.menu-panel li { opacity: 0; transform: translate3d(0, -8px, 0); transition: opacity 350ms var(--ease-out), transform 350ms var(--ease-out); }
+.menu-panel[data-open="true"] li { opacity: 1; transform: none; }
+.menu-panel[data-open="true"] li:nth-child(1) { transition-delay: 40ms; }
+.menu-panel[data-open="true"] li:nth-child(2) { transition-delay: 65ms; }
+.menu-panel[data-open="true"] li:nth-child(3) { transition-delay: 90ms; }
+.menu-panel[data-open="true"] li:nth-child(4) { transition-delay: 115ms; }
+.menu-panel[data-open="true"] li:nth-child(5) { transition-delay: 140ms; }
+.menu-panel[data-open="true"] li:nth-child(6) { transition-delay: 165ms; }
+.menu-panel[data-open="true"] li:nth-child(7) { transition-delay: 190ms; }
+.menu-panel[data-open="true"] li:nth-child(8) { transition-delay: 215ms; }
+.menu-panel[data-open="true"] li:nth-child(n + 9) { transition-delay: 240ms; }
+
+/* Hamburger ↔ close icon morph. */
+.burger path { transition: transform 400ms var(--ease-out), opacity 250ms var(--ease-out); transform-box: fill-box; transform-origin: center; }
+[aria-expanded="true"] .burger .b1 { transform: translateY(6px) rotate(45deg); }
+[aria-expanded="true"] .burger .b2 { opacity: 0; transform: scaleX(0.2); }
+[aria-expanded="true"] .burger .b3 { transform: translateY(-6px) rotate(-45deg); }
+
+/* ── Dialogs (free-trial pop-up): scale + fade in, backdrop blurs in ──────────── */
+dialog.fx {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0) scale(0.96);
+  transition: opacity 380ms var(--ease-out), transform 520ms var(--ease-out),
+    overlay 520ms var(--ease-out) allow-discrete, display 520ms var(--ease-out) allow-discrete;
+}
+dialog.fx[open] { opacity: 1; transform: none; }
+@starting-style { dialog.fx[open] { opacity: 0; transform: translate3d(0, 18px, 0) scale(0.96); } }
+dialog.fx::backdrop {
+  background-color: rgb(10 13 20 / 0);
+  -webkit-backdrop-filter: blur(0);
+  backdrop-filter: blur(0);
+  transition: background-color 450ms var(--ease-out), backdrop-filter 450ms var(--ease-out),
+    overlay 450ms allow-discrete, display 450ms allow-discrete;
+}
+dialog.fx[open]::backdrop { background-color: rgb(10 13 20 / 0.62); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+@starting-style { dialog.fx[open]::backdrop { background-color: rgb(10 13 20 / 0); backdrop-filter: blur(0); } }
+
+/* ── Content swaps (join steps, day changes) and staggered lists ─────────────── */
+@keyframes swap-in { from { opacity: 0; transform: translate3d(0, 14px, 0); } to { opacity: 1; transform: none; } }
+.swap-in { animation: swap-in 520ms var(--ease-out) both; }
+.stagger > * { animation: swap-in 460ms var(--ease-out) both; }
+.stagger > *:nth-child(2) { animation-delay: 25ms; }
+.stagger > *:nth-child(3) { animation-delay: 50ms; }
+.stagger > *:nth-child(4) { animation-delay: 75ms; }
+.stagger > *:nth-child(5) { animation-delay: 100ms; }
+.stagger > *:nth-child(6) { animation-delay: 125ms; }
+.stagger > *:nth-child(7) { animation-delay: 150ms; }
+.stagger > *:nth-child(8) { animation-delay: 175ms; }
+.stagger > *:nth-child(9) { animation-delay: 200ms; }
+.stagger > *:nth-child(n + 10) { animation-delay: 225ms; }
+
+/* Messages (success / error) ease in instead of popping. */
+[role="status"], [role="alert"], .field-error { animation: swap-in 420ms var(--ease-out) both; }
+
+/* Loading placeholders shimmer. */
+@keyframes shimmer { from { background-position: 150% 0; } to { background-position: -50% 0; } }
+.skeleton {
+  border-radius: 10px;
+  background: linear-gradient(100deg, var(--color-mist) 30%, #fff 50%, var(--color-mist) 70%) 0 0 / 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+/* Selected choice gets a soft "pop". */
+@keyframes pop { 0% { transform: scale(0.95); } 60% { transform: scale(1.03); } 100% { transform: scale(1); } }
+[role="radio"][aria-checked="true"], [aria-pressed="true"] { animation: pop 380ms var(--ease-spring); }
+
+/* ── Respect "reduce motion" ─────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}

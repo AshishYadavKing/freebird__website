@@ -78,14 +78,16 @@ export function ConsultationBooking({ clubs }: { clubs: ClubOption[] }) {
     <div className="flex flex-col gap-6">
       <DayPicker value={day} onChange={setDay} />
       {slots === null ? (
-        <p className="text-muted" role="status">Loading times…</p>
+        <div role="status" aria-label="Loading times" className="stagger grid grid-cols-3 gap-2 sm:grid-cols-5">
+          {Array.from({ length: 10 }, (_, i) => <span key={i} className="skeleton h-11" />)}
+        </div>
       ) : slots.length === 0 ? (
-        <p className="rounded-xl bg-mist px-4 py-3 text-ink-soft">No consultation times this day. Try another day.</p>
+        <p className="swap-in rounded-xl bg-mist px-4 py-3 text-ink-soft">No consultation times this day. Try another day.</p>
       ) : (
-        <div role="radiogroup" aria-label="Time" className="grid grid-cols-3 gap-2 sm:grid-cols-5">
+        <div role="radiogroup" aria-label="Time" className="stagger grid grid-cols-3 gap-2 sm:grid-cols-5">
           {slots.map((s) => (
             <button key={s.id} type="button" role="radio" aria-checked={slot?.id === s.id} onClick={() => setSlot(s)}
-              className={`rounded-[10px] border-2 px-2 py-2.5 text-sm font-bold ${slot?.id === s.id ? "border-fire bg-fire text-ink" : "border-line bg-white hover:border-ink"}`}>
+              className={`rounded-[10px] border-2 px-2 py-2.5 text-sm font-bold transition-colors duration-300 ${slot?.id === s.id ? "border-fire bg-fire text-ink" : "border-line bg-white hover:border-ink"}`}>
               {time12(s.start)}
             </button>
           ))}
@@ -93,7 +95,7 @@ export function ConsultationBooking({ clubs }: { clubs: ClubOption[] }) {
       )}
 
       {slot && (
-        <form onSubmit={submit} noValidate className="relative grid gap-4 rounded-2xl border border-line p-5 sm:grid-cols-2 sm:p-6">
+        <form onSubmit={submit} noValidate className="swap-in relative grid gap-4 rounded-2xl border border-line p-5 sm:grid-cols-2 sm:p-6">
           <Honeypot />
           <p className="font-semibold sm:col-span-2">Free consultation · {longDate(day)} · {time12(slot.start)}–{time12(slot.end)}</p>
           <TextField label="Full name" name="full_name" autoComplete="name" required error={errors.full_name} />

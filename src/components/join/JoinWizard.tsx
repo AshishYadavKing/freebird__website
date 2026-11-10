@@ -175,7 +175,7 @@ export function JoinWizard({ clubs, initial, cancelled }: {
         <ol aria-label="Progress" className="mb-8 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold">
           {STEPS.map((s, i) => (
             <li key={s.id} className={`flex items-center gap-2 ${i <= stepIndex ? "text-ink" : "text-subtle"}`} aria-current={i === stepIndex ? "step" : undefined}>
-              <span className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-extrabold ${i < stepIndex ? "bg-go text-white" : i === stepIndex ? "bg-fire text-ink" : "bg-line text-muted"}`}>
+              <span className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-extrabold transition-colors duration-500 ${i < stepIndex ? "bg-go text-white" : i === stepIndex ? "bg-fire text-ink" : "bg-line text-muted"}`}>
                 {i < stepIndex ? "✓" : i + 1}
               </span>
               {s.label}
@@ -194,6 +194,8 @@ export function JoinWizard({ clubs, initial, cancelled }: {
           </div>
         )}
 
+        {/* Each step eases in when it replaces the previous one. */}
+        <div key={step} className="swap-in">
         {step === "plan" && (
           <PlanPicker clubs={clubs} onPick={(s) => { setSel(s); setStep("phone"); }} />
         )}
@@ -260,6 +262,7 @@ export function JoinWizard({ clubs, initial, cancelled }: {
         {step === "agreement" && agreement && quote && (
           <SignStep agreement={agreement} quote={quote} busy={busy} errors={errors} onSubmit={signAndPay} />
         )}
+        </div>
       </div>
 
       {sel && (

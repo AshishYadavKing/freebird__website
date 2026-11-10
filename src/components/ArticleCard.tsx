@@ -8,8 +8,8 @@ export function articleDate(iso: string | null): string {
 
 export function ArticleCard({ a, large = false }: { a: ArticleSummary; large?: boolean }) {
   return (
-    <Link href={`/articles/${a.slug}`} className={`group flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-line bg-white transition hover:border-ink ${large ? "md:flex-row" : ""}`}>
-      <div className={`relative aspect-[1200/630] w-full bg-mist ${large ? "md:w-3/5" : ""}`}>
+    <Link href={`/articles/${a.slug}`} className={`group flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-line bg-white lift hover:border-ink ${large ? "md:flex-row" : ""}`}>
+      <div className={`zoom-on-hover relative aspect-[1200/630] w-full bg-mist ${large ? "md:w-3/5" : ""}`}>
         {a.cover_url ? (
           <Image src={a.cover_url} alt="" fill sizes={large ? "(min-width: 768px) 60vw, 100vw" : "(min-width: 768px) 33vw, 100vw"} className="object-cover" />
         ) : (
@@ -20,7 +20,7 @@ export function ArticleCard({ a, large = false }: { a: ArticleSummary; large?: b
         <p className="text-xs font-bold uppercase tracking-[0.1em] text-ember">
           {[a.category, `${a.reading_minutes} min read`].filter(Boolean).join(" · ")}
         </p>
-        <h3 className={`font-display font-extrabold uppercase leading-tight group-hover:text-ember ${large ? "text-4xl sm:text-5xl" : "text-2xl"}`}>{a.title}</h3>
+        <h3 className={`font-display font-extrabold uppercase leading-tight transition-colors duration-300 group-hover:text-ember ${large ? "text-4xl sm:text-5xl" : "text-2xl"}`}>{a.title}</h3>
         {a.excerpt && <p className={`text-muted ${large ? "text-lg" : "line-clamp-3"}`}>{a.excerpt}</p>}
         <p className="mt-auto pt-2 text-sm text-subtle">{[a.author_name, articleDate(a.published_at)].filter(Boolean).join(" · ")}</p>
       </div>
