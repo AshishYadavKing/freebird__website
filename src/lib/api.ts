@@ -58,6 +58,21 @@ export async function apiGet<T>(path: string, { revalidate = 300, tags }: GetOpt
   return body.data;
 }
 
+/**
+ * The whole JSON body, for the few older CRM endpoints that don't wrap their
+ * payload in `data` (e.g. the legal pages: {status, title, content}). Null on failure.
+ */
+export async function apiGetBody<T extends Record<string, unknown>>(path: string, { revalidate = 300, tags }: GetOptions = {}): Promise<T | null> {
+  try {
+    const res = await fetch(`${API_BASE}${path}`, { headers: serverHeaders(), next: { revalidate, tags } });
+    if (!res.ok) return null;
+    const body = (await res.json()) as T & { status?: boolean };
+    return body.status === false ? null : body;
+  } catch {
+    return null;
+  }
+}
+
 /** Like apiGet, but returns null instead of throwing — for optional page sections. */
 export async function apiGetSafe<T>(path: string, opts?: GetOptions): Promise<T | null> {
   try {

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Plan, PlanPrice } from "@/lib/crm";
 import { money } from "@/lib/format";
+import { fullPlanLabel } from "@/lib/plans";
 
 export type PlanTier = { plan: Plan; price: PlanPrice };
 
@@ -23,7 +24,7 @@ function terms(p: PlanPrice): string[] {
 
 export function PlanCard({ tier, branchId, featured = false }: { tier: PlanTier; branchId: number; featured?: boolean }) {
   const { plan, price } = tier;
-  const label = price.name && price.name !== plan.name ? `${plan.name} · ${price.name}` : plan.name;
+  const label = fullPlanLabel(plan.name, price);
   const features = plan.features.slice(0, 4);
   const href = `/join?club=${branchId}&plan=${plan.id}&price=${price.id}`;
 

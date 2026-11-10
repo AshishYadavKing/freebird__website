@@ -7,6 +7,7 @@ import type { ClubPlansData } from "@/components/ClubPlans";
 import { FormAlert, SelectField, TextField } from "@/components/forms/Fields";
 import { postJson, type ApiResult } from "@/lib/client-api";
 import { money } from "@/lib/format";
+import { fullPlanLabel } from "@/lib/plans";
 import { SignaturePad } from "./SignaturePad";
 
 type Step = "plan" | "phone" | "code" | "details" | "review" | "agreement";
@@ -294,7 +295,7 @@ export function JoinWizard({ clubs, initial, cancelled }: {
 }
 
 function tierLabel(t: ClubPlansData["tiers"][number]) {
-  return t.price.name && t.price.name !== t.plan.name ? `${t.plan.name} · ${t.price.name}` : t.plan.name;
+  return fullPlanLabel(t.plan.name, t.price);
 }
 
 function PlanPicker({ clubs, onPick }: { clubs: ClubPlansData[]; onPick: (s: Selection) => void }) {

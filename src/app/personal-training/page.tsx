@@ -5,6 +5,7 @@ import { PageHero } from "@/components/PageHero";
 import { tiersOf } from "@/components/PlanCard";
 import { clubOptions, getClubs, getPlans } from "@/lib/crm";
 import { money } from "@/lib/format";
+import { fullPlanLabel } from "@/lib/plans";
 
 export const revalidate = 300;
 export const metadata: Metadata = {
@@ -46,7 +47,7 @@ export default async function PersonalTrainingPage() {
             <div className="grid gap-5 md:grid-cols-3">
               {ptTiers.map(({ plan, price }) => (
                 <article key={price.id} className="card flex flex-col gap-3">
-                  <h3 className="text-sm font-semibold uppercase tracking-[0.08em] text-muted">{price.name && price.name !== plan.name ? `${plan.name} · ${price.name}` : plan.name}</h3>
+                  <h3 className="text-sm font-semibold uppercase tracking-[0.08em] text-muted">{fullPlanLabel(plan.name, price)}</h3>
                   <p><span className="font-display text-5xl font-extrabold">{money(price.price)}</span> <span className="text-muted">{price.billing_label} + tax</span></p>
                   {price.total_sessions ? <p className="text-ink-soft">{price.total_sessions} sessions</p> : null}
                   <a href="#consult" className="btn-secondary mt-auto">Start with a free consult</a>

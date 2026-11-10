@@ -1,5 +1,5 @@
 import "server-only";
-import { apiGet, apiGetSafe } from "./api";
+import { apiGet, apiGetBody, apiGetSafe } from "./api";
 import { clubForBranchName, type Club } from "./site";
 
 /* ── Types matching /api/v1/website/* ─────────────────────────────────────── */
@@ -134,9 +134,10 @@ export async function getArticle(slug: string): Promise<Article | null> {
 /** Legal pages (privacy, terms, refund) as HTML managed in the CRM. */
 export async function getLegal(kind: "privacy" | "terms" | "refund"): Promise<string | null> {
   const path = { privacy: "/privacy-policy/client", terms: "/terms-and-conditions", refund: "/refund-policy" }[kind];
-  const data = await apiGetSafe<{ content?: string } | string>(path, { revalidate: 3600 });
-  if (!data) return null;
-  return typeof data === "string" ? data : (data.content ?? null);
+  // These endpoints return {status, title, content} without a `data` wrapper.
+  const body = await apiGetBody<{ content?: string | null }>(path, { revalidate: 3600, tags: ["legal"] });
+  const html = body?.content?.trim();
+  return html ? html : null;
 }
 
 export { apiGet, clubForBranchName };
