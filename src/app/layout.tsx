@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, Inter } from "next/font/google";
+import { FreeTrialPopup } from "@/components/FreeTrialPopup";
 import { Footer } from "@/components/layout/Footer";
+import { clubOptions } from "@/lib/crm";
 import { Header } from "@/components/layout/Header";
 import { CLUBS, SITE } from "@/lib/site";
 import "./globals.css";
@@ -35,7 +37,8 @@ const jsonLd = {
   })),
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const clubs = await clubOptions();
   return (
     <html lang="en-CA" className={`${inter.variable} ${barlow.variable}`}>
       <body className="flex min-h-screen flex-col antialiased">
@@ -45,6 +48,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Header />
         <main id="main" className="flex-1">{children}</main>
         <Footer />
+        <FreeTrialPopup clubs={clubs} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </body>
     </html>

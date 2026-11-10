@@ -15,6 +15,7 @@ export function LeadForm({
   multipart = false,
   className = "grid gap-4 sm:grid-cols-2",
   dark = false,
+  onSuccess,
 }: {
   endpoint: string;
   children: (errors: Record<string, string>) => ReactNode;
@@ -22,6 +23,8 @@ export function LeadForm({
   multipart?: boolean;
   className?: string;
   dark?: boolean;
+  /** Called after a successful submit (e.g. to remember that a free trial was claimed). */
+  onSuccess?: () => void;
 }) {
   const [busy, setBusy] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -49,6 +52,7 @@ export function LeadForm({
     if (res.ok) {
       setDone(res.message);
       form.reset();
+      onSuccess?.();
     } else {
       setErrors(res.errors);
       setMessage(Object.keys(res.errors).length ? "Please fix the highlighted fields." : res.message);

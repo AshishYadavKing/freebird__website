@@ -1,11 +1,11 @@
 "use client";
 
-import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
+import { useId, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from "react";
 
 type Base = { label: string; name: string; error?: string; hint?: string; className?: string };
 
 export function TextField({ label, name, error, hint, className, ...rest }: Base & InputHTMLAttributes<HTMLInputElement>) {
-  const id = `f-${name}`;
+  const id = `f-${name}-${useId().replace(/:/g, "")}`; // unique even when a form appears twice on a page
   return (
     <div className={className}>
       <label htmlFor={id} className="field-label">
@@ -19,7 +19,7 @@ export function TextField({ label, name, error, hint, className, ...rest }: Base
 }
 
 export function TextArea({ label, name, error, className, ...rest }: Base & TextareaHTMLAttributes<HTMLTextAreaElement>) {
-  const id = `f-${name}`;
+  const id = `f-${name}-${useId().replace(/:/g, "")}`; // unique even when a form appears twice on a page
   return (
     <div className={className}>
       <label htmlFor={id} className="field-label">
@@ -32,7 +32,7 @@ export function TextArea({ label, name, error, className, ...rest }: Base & Text
 }
 
 export function SelectField({ label, name, error, className, children, ...rest }: Base & SelectHTMLAttributes<HTMLSelectElement> & { children: ReactNode }) {
-  const id = `f-${name}`;
+  const id = `f-${name}-${useId().replace(/:/g, "")}`; // unique even when a form appears twice on a page
   return (
     <div className={className}>
       <label htmlFor={id} className="field-label">

@@ -156,7 +156,7 @@ export function FacilityBooking({ facilities, kind }: { facilities: FacilityOpti
 
           <TextField label="Full name" name="full_name" autoComplete="name" required error={errors.full_name} />
           <TextField label="Mobile number" name="mobile" type="tel" autoComplete="tel" required error={errors.mobile} />
-          <TextField label="Email (for your confirmation)" name="email" type="email" autoComplete="email" error={errors.email} />
+          <TextField label="Email (for your confirmation)" name="email" type="email" autoComplete="email" required error={errors.email} />
 
           {isRehab && (
             <>

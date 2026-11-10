@@ -16,9 +16,18 @@ function ClubSelect({ clubs, error, required = false, label = "Club" }: { clubs:
   );
 }
 
-export function FreePassForm({ clubs, dark = false }: { clubs: ClubOption[]; dark?: boolean }) {
+export const TRIAL_CLAIMED_KEY = "fb-free-trial-claimed";
+
+/** Remember on this device that the visitor claimed their trial (so the pop-up stops). */
+export function markTrialClaimed() {
+  try {
+    localStorage.setItem(TRIAL_CLAIMED_KEY, new Date().toISOString());
+  } catch { /* private mode: fine */ }
+}
+
+export function FreePassForm({ clubs, dark = false, onSuccess }: { clubs: ClubOption[]; dark?: boolean; onSuccess?: () => void }) {
   return (
-    <LeadForm endpoint="leads/free-pass" submitLabel="Send my free pass" dark={dark}>
+    <LeadForm endpoint="leads/free-pass" submitLabel="Send my free pass" dark={dark} onSuccess={() => { markTrialClaimed(); onSuccess?.(); }}>
       {(e) => (
         <>
           <TextField label="Full name" name="full_name" autoComplete="name" required error={e.full_name} />

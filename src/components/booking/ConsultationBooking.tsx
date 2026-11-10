@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
-import { ConsentCheckbox, FormAlert, Honeypot, SelectField, TextArea, TextField, formToObject } from "@/components/forms/Fields";
+import { ConsentCheckbox, FormAlert, Honeypot, TextArea, TextField, formToObject } from "@/components/forms/Fields";
 import type { ClubOption } from "@/components/forms/Forms";
 import { attribution, getJson, postJson } from "@/lib/client-api";
 import { isoDay, longDate, time12 } from "@/lib/format";
 import { DayPicker } from "./DayPicker";
 
 type Slot = { id: number; start: string; end: string };
+type Booked = { mode?: "online" | "in_person"; club?: string | null; meeting_url?: string | null };
 const GOALS = ["Lose weight", "Build muscle", "Get stronger", "Improve mobility", "Sport performance", "General health"];
 
 /** Book a free consultation on the staff's consultation slots. */
@@ -22,7 +23,7 @@ export function ConsultationBooking({ clubs }: { clubs: ClubOption[] }) {
   const [busy, setBusy] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [message, setMessage] = useState<string | null>(null);
-  const [done, setDone] = useState<string | null>(null);
+  const [done, setDone] = useState<({ message: string; when: string } & Booked) | null>(null);
 
   useEffect(() => {
     let live = true;
@@ -40,9 +41,13 @@ export function ConsultationBooking({ clubs }: { clubs: ClubOption[] }) {
     setMessage(null);
     const form = e.currentTarget;
     const goals = new FormData(form).getAll("goal").map(String);
-    const res = await postJson("consultations", { ...formToObject(form), ...attribution(), admin_slot_id: slot.id, fitness_goal: goals.length ? goals : undefined });
+    // "where" is a club id or "online"
+    const { where, goal: _goal, ...fields } = formToObject(form) as Record<string, unknown>;
+    void _goal;
+    const location = where === "online" ? { mode: "online" } : where ? { mode: "in_person", branch_id: where } : {};
+    const res = await postJson<Booked>("consultations", { ...fields, ...location, ...attribution(), admin_slot_id: slot.id, fitness_goal: goals.length ? goals : undefined });
     setBusy(false);
-    if (res.ok) setDone(`${res.message} ${longDate(day)} at ${time12(slot.start)}.`);
+    if (res.ok) setDone({ message: res.message, when: `${longDate(day)} at ${time12(slot.start)}`, ...res.data });
     else {
       setErrors(res.errors);
       setMessage(Object.keys(res.errors).length ? "Please fix the highlighted fields." : res.message);
@@ -50,7 +55,24 @@ export function ConsultationBooking({ clubs }: { clubs: ClubOption[] }) {
     }
   }
 
-  if (done) return <FormAlert kind="success">{done}</FormAlert>;
+  if (done) {
+    return (
+      <div className="card flex flex-col gap-4">
+        <FormAlert kind="success">{done.message}</FormAlert>
+        <p className="text-lg font-semibold">
+          {done.when} · {done.mode === "online" ? "Online video call" : (done.club ?? "At the club")}
+        </p>
+        {done.meeting_url && (
+          <div className="flex flex-col gap-2 rounded-xl bg-mist p-4">
+            <p className="text-sm text-ink-soft">Join from your phone or computer a minute before the start time:</p>
+            <a href={done.meeting_url} target="_blank" rel="noopener noreferrer" className="btn-primary self-start">Open video-call link</a>
+            <p className="break-all text-xs text-subtle">{done.meeting_url}</p>
+          </div>
+        )}
+        <p className="text-sm text-muted">We’ve emailed you the details. Times are in Toronto time.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -76,11 +98,21 @@ export function ConsultationBooking({ clubs }: { clubs: ClubOption[] }) {
           <p className="font-semibold sm:col-span-2">Free consultation · {longDate(day)} · {time12(slot.start)}–{time12(slot.end)}</p>
           <TextField label="Full name" name="full_name" autoComplete="name" required error={errors.full_name} />
           <TextField label="Mobile number" name="mobile" type="tel" autoComplete="tel" required error={errors.mobile} />
-          <TextField label="Email (for your confirmation)" name="email" type="email" autoComplete="email" error={errors.email} />
-          <SelectField label="Club" name="branch_id" defaultValue="" error={errors.branch_id}>
-            <option value="">Either club</option>
-            {clubs.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}
-          </SelectField>
+          <TextField label="Email (for your confirmation)" name="email" type="email" autoComplete="email" required error={errors.email} />
+          <fieldset className="sm:col-span-2">
+            <legend className="mb-2 text-sm font-semibold text-ink-soft">Where would you like it? <span className="text-ember">*</span></legend>
+            <div className="grid gap-2 sm:grid-cols-3">
+              {[...clubs.map((c) => ({ value: String(c.id), label: c.label, hint: "At the club" })), { value: "online", label: "Online", hint: "Video call — link by email" }].map((o) => (
+                <label key={o.value} className="flex cursor-pointer flex-col rounded-[12px] border-2 border-line px-4 py-3 has-[:checked]:border-fire has-[:checked]:bg-[#FFF4EB]">
+                  <span className="flex items-center gap-2 font-bold">
+                    <input type="radio" name="where" value={o.value} required className="h-4 w-4 accent-fire" />{o.label}
+                  </span>
+                  <span className="pl-6 text-xs text-muted">{o.hint}</span>
+                </label>
+              ))}
+            </div>
+            {(errors.mode || errors.branch_id) && <p className="field-error mt-1">{errors.mode ?? errors.branch_id}</p>}
+          </fieldset>
           <fieldset className="sm:col-span-2">
             <legend className="mb-2 text-sm font-semibold text-ink-soft">Your goals</legend>
             <div className="flex flex-wrap gap-2">
