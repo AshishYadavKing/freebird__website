@@ -61,9 +61,10 @@ export const SITE = {
   years: "15+",
   memberCap: "1,500",
   sqft: "23,000",
-  // [APP STORE LINKS] — replace with the real store URLs.
-  appStore: "#app-store",
-  playStore: "#google-play",
+  // Store links for the member app. Set NEXT_PUBLIC_APP_STORE_URL / NEXT_PUBLIC_PLAY_STORE_URL
+  // once the app is published; until then the site says "coming soon" instead of dead buttons.
+  appStore: process.env.NEXT_PUBLIC_APP_STORE_URL || null,
+  playStore: process.env.NEXT_PUBLIC_PLAY_STORE_URL || null,
 };
 
 export const NAV = [

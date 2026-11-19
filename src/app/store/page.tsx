@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { AppStoreButtons } from "@/components/AppStoreButtons";
 import { PageHero } from "@/components/PageHero";
-import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Store", description: "Supplements, apparel and gear from Free Bird — shop in the Free Bird app or at the club." };
 
@@ -17,8 +17,7 @@ export default function StorePage() {
             <p className="mt-2 text-[#C9D0DC]">Browse the full catalog, see club stock and check out securely with the same account you use for your membership.</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <a href={SITE.appStore} className="btn-primary">App Store</a>
-            <a href={SITE.playStore} className="btn-light">Google Play</a>
+            <AppStoreButtons />
           </div>
         </div>
       </section>

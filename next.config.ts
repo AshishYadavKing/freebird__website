@@ -35,6 +35,22 @@ const LEGACY: Record<string, string> = {
   "/checkout.php": "/store",
   "/member-login.php": "/app",
   "/member-dashboard.php": "/app",
+  // Addresses on the current freebirdgym.com (and in Google / Meta ads).
+  // Query strings such as gclid and utm_* are kept on redirect.
+  "/homepage": "/",
+  "/membership": "/memberships",
+  "/personaltraining": "/personal-training",
+  "/online-coaching": "/online-training",
+  "/onlinetraining": "/online-training",
+  "/the-prime-motion": "/rehab",
+  "/corporate-membership": "/corporate",
+  "/freepass": "/free-pass",
+  "/free-trial": "/free-pass",
+  "/mississauga": "/locations#mississauga",
+  "/brampton": "/locations#brampton",
+  "/contact-us": "/contact",
+  "/career": "/careers",
+  "/store/:path+": "/store",
 };
 
 const securityHeaders = [

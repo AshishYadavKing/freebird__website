@@ -12,6 +12,13 @@ export function tiersOf(plans: Plan[] = []): PlanTier[] {
     .sort((a, b) => Number(b.plan.is_popular) - Number(a.plan.is_popular) || a.price.price - b.price.price);
 }
 
+/** Fixes text typed with Caps Lock on in the CRM ("mISSISSAUGA GYM" → "Mississauga gym"). */
+export function tidyText(t: string): string {
+  const s = t.trim();
+  if (!/^[a-z][^a-z]*[A-Z]/.test(s) || /[a-z].*[a-z]/.test(s.slice(1))) return s;
+  return s.replace(/[a-zA-Z]/g, (c) => (c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()));
+}
+
 function terms(p: PlanPrice): string[] {
   const out: string[] = [];
   if (p.initiation_fee > 0) out.push(`${money(p.initiation_fee)} initiation fee`);
@@ -41,7 +48,7 @@ export function PlanCard({ tier, branchId, featured = false }: { tier: PlanTier;
         <span className={featured ? "text-ink-muted" : "text-muted"}>{price.billing_label} + tax</span>
       </p>
       <ul className={`flex flex-col gap-2 ${featured ? "text-[#C9D0DC]" : "text-ink-soft"}`}>
-        {features.map((f) => <li key={f.name} className="flex gap-2"><Check />{f.name}</li>)}
+        {features.map((f) => <li key={f.name} className="flex gap-2"><Check />{tidyText(f.name)}</li>)}
         {terms(price).map((t) => <li key={t} className="flex gap-2"><Check />{t}</li>)}
       </ul>
       <Link href={href} className={`mt-auto w-full ${featured ? "btn-primary" : "btn-secondary"}`}>

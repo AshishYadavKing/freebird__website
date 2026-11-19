@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/PageHero";
-import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Online training", description: "Coaching, workouts and meal plans in the Free Bird app — train with a Free Bird coach from anywhere." };
 
@@ -28,7 +27,6 @@ export default function OnlineTrainingPage() {
           </div>
           <div className="flex flex-wrap gap-3">
             <Link href="/personal-training#consult" className="btn-primary">Book a free consult</Link>
-            <a href={SITE.appStore} className="btn-light">Get the app</a>
           </div>
         </div>
       </section>

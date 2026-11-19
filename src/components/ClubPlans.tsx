@@ -29,9 +29,10 @@ export function ClubPlans({ clubs }: { clubs: ClubPlansData[] }) {
         </p>
       )}
 
+      {/* Tiers are sorted popular-first, so only the first card gets the "Most popular" badge. */}
       {club.tiers.length ? (
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {club.tiers.map((t, i) => <PlanCard key={t.price.id} tier={t} branchId={club.branchId} featured={t.plan.is_popular || (i === 0 && !club.tiers.some((x) => x.plan.is_popular))} />)}
+          {club.tiers.map((t, i) => <PlanCard key={t.price.id} tier={t} branchId={club.branchId} featured={i === 0} />)}
         </div>
       ) : (
         <p className="card text-center text-ink-soft">No plans are listed online for {club.name} right now. Please call the club for pricing.</p>

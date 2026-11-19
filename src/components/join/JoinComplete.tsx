@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { AppStoreButtons } from "@/components/AppStoreButtons";
 import { useEffect, useState } from "react";
 import { postJson } from "@/lib/client-api";
 import { SITE } from "@/lib/site";
@@ -94,8 +95,7 @@ function AppBox() {
       <h2 className="font-bold">Next: get the Free Bird app</h2>
       <p className="text-muted">Log in with the phone number you just verified to see your QR check-in, book trainers and track workouts.</p>
       <div className="flex flex-wrap gap-3">
-        <a href={SITE.appStore} className="btn-dark">App Store</a>
-        <a href={SITE.playStore} className="btn-dark">Google Play</a>
+        <AppStoreButtons primary="btn-dark" secondary="btn-dark" />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { AppStoreButtons } from "@/components/AppStoreButtons";
 import { PageHero } from "@/components/PageHero";
-import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = { title: "The Free Bird app", description: "Check in with your QR code, book trainers and courts, track workouts and shop — all in the Free Bird app." };
 
@@ -19,8 +19,7 @@ export default function AppPage() {
         <div className="card-dark flex flex-col gap-4">
           <h2 className="h-display text-4xl">Download</h2>
           <div className="flex flex-wrap gap-3">
-            <a href={SITE.appStore} className="btn-primary">App Store</a>
-            <a href={SITE.playStore} className="btn-light">Google Play</a>
+            <AppStoreButtons />
           </div>
           <p className="text-sm text-ink-muted">Trainer? Ask the front desk for the Free Bird Trainer app.</p>
         </div>
