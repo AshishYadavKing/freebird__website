@@ -61,10 +61,9 @@ export const SITE = {
   years: "15+",
   memberCap: "1,500",
   sqft: "23,000",
-  // Store links for the member app. Set NEXT_PUBLIC_APP_STORE_URL / NEXT_PUBLIC_PLAY_STORE_URL
-  // once the app is published; until then the site says "coming soon" instead of dead buttons.
-  appStore: process.env.NEXT_PUBLIC_APP_STORE_URL || null,
-  playStore: process.env.NEXT_PUBLIC_PLAY_STORE_URL || null,
+  // Member (client) app. Store-neutral Apple link so it opens in the visitor's own country store.
+  appStore: process.env.NEXT_PUBLIC_APP_STORE_URL || "https://apps.apple.com/app/freebird-client/id6795422591",
+  playStore: process.env.NEXT_PUBLIC_PLAY_STORE_URL || "https://play.google.com/store/apps/details?id=com.freebird.client",
 };
 
 export const NAV = [

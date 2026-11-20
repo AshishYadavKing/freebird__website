@@ -27,6 +27,7 @@ export default function OnlineTrainingPage() {
           </div>
           <div className="flex flex-wrap gap-3">
             <Link href="/personal-training#consult" className="btn-primary">Book a free consult</Link>
+            <Link href="/app" className="btn-light">Get the app</Link>
           </div>
         </div>
       </section>
