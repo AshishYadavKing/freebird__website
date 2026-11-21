@@ -48,7 +48,9 @@ const LEGACY: Record<string, string> = {
   "/free-trial": "/free-pass",
   "/contact-us": "/contact",
   "/career": "/careers",
-  "/store/:path+": "/store",
+  // Old store sub-pages (product pages are handled by app/store/[slug]).
+  "/store/category/:path*": "/store",
+  "/store/page/:path*": "/store",
 };
 
 const securityHeaders = [

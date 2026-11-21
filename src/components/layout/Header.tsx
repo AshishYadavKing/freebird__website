@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { CartButton } from "@/components/shop/CartButton";
 import { NAV } from "@/lib/site";
 
 export function Header() {
@@ -61,6 +62,7 @@ export function Header() {
           </ul>
 
           <div className="flex items-center gap-2">
+            <CartButton compact hideWhenEmpty />
             <Link href="/app" className="btn-secondary hidden !min-h-10 !py-2 sm:inline-flex">Member app</Link>
             <Link href="/join" className="btn-primary !min-h-10 !py-2">Join now</Link>
             <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="mobile-menu"
