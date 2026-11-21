@@ -1,3 +1,4 @@
+import { GoogleReviews } from "@/components/Social";
 import Image from "next/image";
 import Link from "next/link";
 import { ClubCard } from "@/components/ClubCard";
@@ -148,6 +149,8 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      <GoogleReviews />
     </>
   );
 }

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Club } from "@/lib/site";
 
 export function ClubCard({ club }: { club: Club }) {
@@ -16,6 +17,7 @@ export function ClubCard({ club }: { club: Club }) {
         {club.amenities.map((a) => <li key={a}>{a}</li>)}
       </ul>
       <div className="mt-auto flex flex-wrap gap-3">
+        <Link href={`/${club.slug}`} className="btn-primary">Explore {club.name}</Link>
         <a href={club.mapsUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary">Get directions</a>
         <a href={club.phoneHref} className="btn-secondary">{club.phone}</a>
       </div>

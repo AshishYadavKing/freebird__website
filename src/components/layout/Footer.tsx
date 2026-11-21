@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { NewsletterForm } from "@/components/forms/Forms";
+import { SocialLinks } from "@/components/Social";
 import { CLUBS, SITE } from "@/lib/site";
 
 const LINKS = [
@@ -24,10 +25,11 @@ export function Footer() {
         <div className="flex flex-col gap-4">
           <Image src="/images/logo.png" alt="Free Bird" width={120} height={80} className="h-14 w-auto self-start" />
           <p>Strength, wellness and transformation, powered by certified trainers.</p>
+          <SocialLinks className="text-ink-text" />
         </div>
         {CLUBS.map((c) => (
           <div key={c.slug} className="flex flex-col gap-1.5">
-            <h2 className="mb-1 font-bold text-ink-text">{c.name}</h2>
+            <h2 className="mb-1 font-bold text-ink-text"><Link href={`/${c.slug}`} className="hover:text-white">{c.name}</Link></h2>
             <span>{c.address}</span>
             <span>{c.postal}</span>
             <a href={c.phoneHref} className="hover:text-white">{c.phone}</a>

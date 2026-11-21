@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ConsultationBooking } from "@/components/booking/ConsultationBooking";
+import { PtIntakeForm } from "@/components/forms/ExtraForms";
+import { GoogleReviews } from "@/components/Social";
 import { PageHero } from "@/components/PageHero";
 import { tiersOf } from "@/components/PlanCard";
 import { clubOptions, getClubs, getPlans } from "@/lib/crm";
@@ -59,7 +61,17 @@ export default async function PersonalTrainingPage() {
         </section>
       )}
 
-      <section id="consult" className="container-site flex scroll-mt-24 flex-col gap-8 py-16">
+      <section id="intake" className="container-site grid scroll-mt-24 gap-10 py-16 lg:grid-cols-[1fr_1.3fr]">
+        <div className="flex flex-col gap-4">
+          <p className="eyebrow">Get started now</p>
+          <h2 className="h-section">Client intake form</h2>
+          <p className="text-muted">Tell us about your fitness background, availability and goals so our coaches can tailor your training to you.</p>
+          <p className="text-muted">Once you send it, you’ll get an email about booking your free consultation, where we’ll set a clear plan to reach your goals.</p>
+        </div>
+        <div className="card"><PtIntakeForm clubs={options} /></div>
+      </section>
+
+      <section id="consult" className="container-site flex scroll-mt-24 flex-col gap-8 border-t border-line py-16">
         <div>
           <p className="eyebrow">Free consultation</p>
           <h2 className="h-section mt-2">Talk to a coach first</h2>
@@ -67,6 +79,8 @@ export default async function PersonalTrainingPage() {
         </div>
         <ConsultationBooking clubs={options} />
       </section>
+
+      <GoogleReviews />
     </>
   );
 }

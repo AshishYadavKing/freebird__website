@@ -16,6 +16,8 @@ export function LeadForm({
   className = "grid gap-4 sm:grid-cols-2",
   dark = false,
   onSuccess,
+  prepare,
+  successMessage,
 }: {
   endpoint: string;
   children: (errors: Record<string, string>) => ReactNode;
@@ -25,6 +27,13 @@ export function LeadForm({
   dark?: boolean;
   /** Called after a successful submit (e.g. to remember that a free trial was claimed). */
   onSuccess?: () => void;
+  /**
+   * Optional step before sending (JSON forms only): check extra fields and fold them into
+   * what the CRM stores, e.g. studio date + hours into the message. Return errors to stop.
+   */
+  prepare?: (data: Record<string, unknown>, form: HTMLFormElement) => { data?: Record<string, unknown>; errors?: Record<string, string> };
+  /** Text shown after a successful submit instead of the CRM's generic confirmation. */
+  successMessage?: string;
 }) {
   const [busy, setBusy] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -45,12 +54,23 @@ export function LeadForm({
       for (const [k, v] of Object.entries(attribution())) fd.set(k, v);
       res = await postForm(endpoint, fd);
     } else {
-      res = await postJson(endpoint, { ...formToObject(form), ...attribution() });
+      let data = formToObject(form);
+      if (prepare) {
+        const out = prepare(data, form);
+        if (out.errors && Object.keys(out.errors).length) {
+          setBusy(false);
+          setErrors(out.errors);
+          setMessage("Please fix the highlighted fields.");
+          return;
+        }
+        data = out.data ?? data;
+      }
+      res = await postJson(endpoint, { ...data, ...attribution() });
     }
 
     setBusy(false);
     if (res.ok) {
-      setDone(res.message);
+      setDone(successMessage ?? res.message);
       form.reset();
       onSuccess?.();
     } else {

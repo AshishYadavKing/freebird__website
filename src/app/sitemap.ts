@@ -4,7 +4,7 @@ import { getArticles } from "@/lib/crm";
 export const revalidate = 3600;
 
 const PAGES = ["", "memberships", "join", "free-pass", "personal-training", "online-training", "rehab", "badminton",
-  "high-spirits-studio", "transformations", "locations", "about", "articles", "corporate", "careers", "contact", "store", "app",
+  "high-spirits-studio", "transformations", "locations", "mississauga", "brampton", "about", "articles", "corporate", "careers", "contact", "store", "app",
   "calorie-calculator", "privacy", "terms", "refund-policy"];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

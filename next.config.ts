@@ -46,8 +46,6 @@ const LEGACY: Record<string, string> = {
   "/corporate-membership": "/corporate",
   "/freepass": "/free-pass",
   "/free-trial": "/free-pass",
-  "/mississauga": "/locations#mississauga",
-  "/brampton": "/locations#brampton",
   "/contact-us": "/contact",
   "/career": "/careers",
   "/store/:path+": "/store",
