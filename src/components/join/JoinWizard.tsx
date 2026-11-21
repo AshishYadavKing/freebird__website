@@ -319,6 +319,15 @@ function PlanPicker({ clubs, onPick }: { clubs: ClubPlansData[]; onPick: (s: Sel
       </div>
       {!club.online ? (
         <p className="card text-ink-soft">Online sign-up isn’t open at {club.name} yet. Please visit or call the club to join.</p>
+      ) : club.tiers.length === 0 ? (
+        <div className="card flex flex-col gap-4">
+          <p className="text-lg font-bold">{club.name} memberships start with a free consultation</p>
+          <p className="text-ink-soft">{club.name} is our personal-training studio. Tell us your goals and a coach will recommend the right plan for you.</p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/personal-training#intake" className="btn-primary">Book a free consultation</Link>
+            <Link href="/locations" className="btn-secondary">Call the club</Link>
+          </div>
+        </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2">
           {club.tiers.map((t) => (

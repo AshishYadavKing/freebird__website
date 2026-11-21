@@ -5,7 +5,8 @@ import { PageHero } from "@/components/PageHero";
 
 export const metadata: Metadata = { title: "Transformations", description: "Real results from Free Bird members." };
 
-const STORIES = [
+// Add `caption: "Name · Program · Timeframe"` once the member has given permission.
+const STORIES: { img: string; alt: string; caption?: string }[] = [
   { img: "/images/transformation-1.webp", alt: "Member before-and-after transformation, front, side and back views" },
   { img: "/images/transformation-2.webp", alt: "Member before-and-after transformation" },
 ];
@@ -20,7 +21,7 @@ export default function TransformationsPage() {
         {STORIES.map((s) => (
           <figure key={s.img} className="card !p-4">
             <Image src={s.img} alt={s.alt} width={640} height={640} className="w-full rounded-[14px] object-cover" />
-            <figcaption className="mt-3 text-sm text-muted">[MEMBER NAME] · [PROGRAM] · [TIMEFRAME] — shared with permission.</figcaption>
+            {s.caption && <figcaption className="mt-3 text-sm text-muted">{s.caption}</figcaption>}
           </figure>
         ))}
       </section>

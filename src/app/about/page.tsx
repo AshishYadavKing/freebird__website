@@ -22,7 +22,9 @@ export default function AboutPage() {
       <section className="container-site flex flex-wrap items-center gap-12 py-16">
         <div className="flex flex-1 basis-[420px] flex-col gap-4">
           <h2 className="h-section">Fly with high spirits</h2>
-          <p className="lead">[OUR STORY — a few lines from Jayant about how Free Bird began, who it’s for, and what makes the coaching different.]</p>
+          <p className="lead">For more than 15 years, Free Bird has helped people get stronger, leaner and healthier — over 1,500 client transformations and counting.</p>
+          <p className="text-ink-soft">We took the conventional gym and turned it on its head: custom-built strength equipment with higher weight loads and longer cables, a 24/7 club in Mississauga that’s capped so it never gets overcrowded, and a 12,000 sq ft personal-training studio in Brampton with 25+ certified coaches.</p>
+          <p className="text-ink-soft">No cookie-cutter routines. Every member gets a plan built around their goals, and coaches who hold them accountable.</p>
           <Link href="/free-pass" className="btn-primary self-start">Visit us free for 3 days</Link>
         </div>
         <Image src="/images/gym-floor.webp" alt="The Free Bird Mississauga gym floor" width={640} height={480} className="w-full max-w-[640px] flex-1 basis-[420px] rounded-[20px] object-cover" />
