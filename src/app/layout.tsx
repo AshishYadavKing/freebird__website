@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, Inter } from "next/font/google";
 import { FreeTrialPopup } from "@/components/FreeTrialPopup";
 import { Footer } from "@/components/layout/Footer";
-import { clubOptions } from "@/lib/crm";
+import { clubOptions, getArticles } from "@/lib/crm";
 import { Header } from "@/components/layout/Header";
 import { CLUBS, SITE } from "@/lib/site";
 import "./globals.css";
@@ -38,16 +38,17 @@ const jsonLd = {
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const clubs = await clubOptions();
+  const [clubs, articles] = await Promise.all([clubOptions(), getArticles({ perPage: 1 })]);
+  const noArticles = articles.total === 0;
   return (
     <html lang="en-CA" className={`${inter.variable} ${barlow.variable}`}>
       <body className="flex min-h-screen flex-col antialiased">
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2">
           Skip to content
         </a>
-        <Header />
+        <Header hideArticles={noArticles} />
         <main id="main" className="flex-1">{children}</main>
-        <Footer />
+        <Footer hideArticles={noArticles} />
         <FreeTrialPopup clubs={clubs} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </body>

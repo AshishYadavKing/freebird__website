@@ -4,7 +4,11 @@ import { JoinWizard } from "@/components/join/JoinWizard";
 import { tiersOf } from "@/components/PlanCard";
 import { getClubs, getPlans } from "@/lib/crm";
 
-export const metadata: Metadata = { title: "Join online", robots: { index: false } };
+export const metadata: Metadata = {
+  title: "Join online",
+  description: "Become a Free Bird Gym member online: choose your plan, sign your agreement and pay securely in a few minutes.",
+  robots: { index: false },
+};
 export const dynamic = "force-dynamic";
 
 export default async function JoinPage({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {

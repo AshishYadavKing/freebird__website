@@ -7,8 +7,9 @@ import { useEffect, useRef, useState } from "react";
 import { CartButton } from "@/components/shop/CartButton";
 import { NAV } from "@/lib/site";
 
-export function Header() {
+export function Header({ hideArticles = false }: { hideArticles?: boolean }) {
   const path = usePathname();
+  const nav = hideArticles ? NAV.filter((n) => n.href !== "/articles") : NAV;
   // The menu belongs to the page it was opened on, so navigating closes it.
   const [openOn, setOpenOn] = useState<string | null>(null);
   const open = openOn === path;
@@ -51,7 +52,7 @@ export function Header() {
           </Link>
 
           <ul className="hidden items-center gap-1 text-[15px] font-medium lg:flex">
-            {NAV.map((n) => (
+            {nav.map((n) => (
               <li key={n.href}>
                 <Link href={n.href} aria-current={path.startsWith(n.href) ? "page" : undefined}
                   className={`nav-link block px-3 py-2 transition-colors duration-300 ${path.startsWith(n.href) ? "font-bold text-ember" : "hover:text-ember"}`}>
@@ -79,7 +80,7 @@ export function Header() {
         <div id="mobile-menu" data-open={open} inert={!open} className="menu-panel border-line bg-white lg:hidden" style={{ borderTopWidth: open ? 1 : 0 }}>
           <div>
             <ul className="container-site flex flex-col py-2">
-              {NAV.map((n) => (
+              {nav.map((n) => (
                 <li key={n.href}>
                   <Link href={n.href} className="block py-3 text-lg font-semibold">{n.label}</Link>
                 </li>

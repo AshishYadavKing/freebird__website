@@ -1,5 +1,6 @@
 "use client";
 
+import { CLUBS } from "@/lib/site";
 import { ConsentCheckbox, SelectField, TextArea, TextField } from "./Fields";
 import { LeadForm } from "./LeadForm";
 
@@ -25,7 +26,13 @@ export function markTrialClaimed() {
   } catch { /* private mode: fine */ }
 }
 
-export function FreePassForm({ clubs, dark = false, onSuccess }: { clubs: ClubOption[]; dark?: boolean; onSuccess?: () => void }) {
+/** Clubs that offer the free 3-day pass (not the PT-only Brampton studio). */
+function passClubs(clubs: ClubOption[]): ClubOption[] {
+  return clubs.filter((c) => CLUBS.find((k) => k.match.test(c.label))?.freePass ?? true);
+}
+
+export function FreePassForm({ clubs: all, dark = false, onSuccess }: { clubs: ClubOption[]; dark?: boolean; onSuccess?: () => void }) {
+  const clubs = passClubs(all);
   return (
     <LeadForm endpoint="leads/free-pass" submitLabel="Send my free pass" dark={dark} onSuccess={() => { markTrialClaimed(); onSuccess?.(); }}>
       {(e) => (

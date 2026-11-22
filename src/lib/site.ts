@@ -19,6 +19,8 @@ export type Club = {
   phoneHref: string;
   hours: string[];
   openNow247: boolean;
+  /** Offers the free 3-day pass (the Brampton PT studio does not). */
+  freePass: boolean;
   tag: string;
   amenities: string[];
   mapsUrl: string;
@@ -45,6 +47,7 @@ export const CLUBS: Club[] = [
     phoneHref: "tel:+19052381331",
     hours: ["Open & staffed 24/7"],
     openNow247: true,
+    freePass: true,
     tag: "Open 24/7 · Staffed 24/7",
     amenities: ["23,000 sq ft floor", "Custom-built strength equipment", "Group classes room", "Men’s sauna & spa", "Women’s sauna & spa", "Hourly cleaning"],
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=1331+Crestlawn+Dr+Mississauga+ON+L4W+1P8",
@@ -61,7 +64,7 @@ export const CLUBS: Club[] = [
         { t: "Custom-built training equipment", d: "Custom cable trainers and free weights, designed for lifters at every stage." },
         { t: "24/7 unlimited access", d: "Unlimited access to the gym, open 24/7. Work out whenever you like." },
         { t: "Personal training just for you", d: "Whether you want to lose weight, get stronger, become more flexible or compete, our trainers are here to help." },
-        { t: "Optional online training", d: "Getting to the gym every day can be hard, so we offer an easy-to-use online training programme too." },
+        { t: "Optional online training", d: "Getting to the gym every day can be hard, so we offer an easy-to-use online training program too." },
         { t: "Fascial Stretch Therapy", d: "FST™ is a complete, full-body functional mobility restoration system. Available on request." },
         { t: "Custom nutrition plans", d: "Our qualified trainers can design nutrition and meal plans based on your goals." },
       ],
@@ -77,20 +80,21 @@ export const CLUBS: Club[] = [
     phoneHref: "tel:+19054596255",
     hours: ["Mon–Fri 7AM–11PM", "Sat–Sun 9AM–9PM"],
     openNow247: false,
+    freePass: false,
     tag: "Personal training studio",
     amenities: ["1-on-1 coaching", "Rehab & mobility", "Badminton courts", "High Spirits Studio"],
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=284+Orenda+Rd+11+Brampton+ON+L6T+4X6",
     reviewsUrl: "https://www.google.com/search?q=Free+Bird+Gym+Brampton+reviews",
     page: {
       title: "The biggest & best personal training studio in Canada",
-      intro: "Our premier personal-training studio on Orenda Rd combines expert guidance, personalised programmes and a supportive environment to help you reach your goals.",
+      intro: "Our premier personal-training studio on Orenda Rd combines expert guidance, personalized programs and a supportive environment to help you reach your goals.",
       sizeLine: "In our 12,000 sq ft Brampton studio, you’ll find your new personal training journey. The studio includes:",
       includes: ["An exclusive, PT-only space", "Online training available for members", "Very affordable membership options", "Custom-built strength equipment", "In-house supplements", "InBody machines for accurate tracking"],
       highlight: { title: "Personal training clients only", text: "Serviced by 25+ coaches, our studio is dedicated only to personal training clients. This is not a regular gym." },
       features: [
         { t: "15+ years of experience", d: "Over 15 years guiding physical transformations, with the skills to help you get the results you want." },
         { t: "Over 1,500 transformations", d: "Our clients are living proof of what dedication, expert guidance and a personal plan can do." },
-        { t: "Customised programming", d: "No cookie-cutter routines — a programme that fits you, for real results and lasting progress." },
+        { t: "Customized programming", d: "No cookie-cutter routines — a program that fits you, for real results and lasting progress." },
         { t: "Custom-designed equipment", d: "All free weights, cable and hydraulic press machines are custom made: higher weight loads, longer cables and taller frames." },
         { t: "A holistic approach", d: "Plans built around your goals, challenges and lifestyle — strength, weight loss, hormone balance or overall health." },
         { t: "InBody tracking", d: "Accurate body-composition scans so you and your coach can see real progress, not just the scale." },
@@ -100,7 +104,7 @@ export const CLUBS: Club[] = [
 ];
 
 export const SITE = {
-  name: "Free Bird Health Clubs",
+  name: "Free Bird Gym",
   short: "Free Bird",
   email: "info@freebirdgym.com",
   slogan: "Fly with high spirits.",

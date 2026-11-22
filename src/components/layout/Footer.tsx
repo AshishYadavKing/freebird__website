@@ -18,7 +18,8 @@ const LINKS = [
   { href: "/contact", label: "Contact" },
 ];
 
-export function Footer() {
+export function Footer({ hideArticles = false }: { hideArticles?: boolean }) {
+  const links = hideArticles ? LINKS.filter((l) => l.href !== "/articles") : LINKS;
   return (
     <footer className="bg-ink text-ink-muted">
       <div className="container-site grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
@@ -43,7 +44,7 @@ export function Footer() {
       </div>
       <div className="container-site border-t border-ink-line py-6">
         <ul className="mb-4 flex flex-wrap gap-x-6 gap-y-2 text-sm">
-          {LINKS.map((l) => <li key={l.href}><Link href={l.href} className="hover:text-white">{l.label}</Link></li>)}
+          {links.map((l) => <li key={l.href}><Link href={l.href} className="hover:text-white">{l.label}</Link></li>)}
         </ul>
         <div className="flex flex-wrap justify-between gap-3 text-[13px] text-[#8A94A7]">
           <span>© {new Date().getFullYear()} {SITE.name} · <a href={`mailto:${SITE.email}`} className="hover:text-white">{SITE.email}</a></span>

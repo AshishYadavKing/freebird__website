@@ -133,7 +133,7 @@ export async function getArticle(slug: string): Promise<Article | null> {
 
 /** Legal pages (privacy, terms, refund) as HTML managed in the CRM. */
 export async function getLegal(kind: "privacy" | "terms" | "refund"): Promise<string | null> {
-  const path = { privacy: "/privacy-policy/client", terms: "/terms-and-conditions", refund: "/refund-policy" }[kind];
+  const path = { privacy: "/privacy-policy/website", terms: "/terms-and-conditions", refund: "/refund-policy" }[kind];
   // These endpoints return {status, title, content} without a `data` wrapper.
   const body = await apiGetBody<{ content?: string | null }>(path, { revalidate: 3600, tags: ["legal"] });
   const html = body?.content?.trim();

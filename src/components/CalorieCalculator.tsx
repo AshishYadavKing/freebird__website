@@ -86,9 +86,9 @@ function Gate({ onDone }: { onDone: () => void }) {
 
 function Calculator() {
   const [sex, setSex] = useState<"male" | "female">("female");
-  const [age, setAge] = useState("30");
-  const [height, setHeight] = useState("165");
-  const [weight, setWeight] = useState("70");
+  const [age, setAge] = useState("");
+  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("");
   const [activity, setActivity] = useState("1.375");
   const [goal, setGoal] = useState<Goal>("maintain");
   const [macros, setMacros] = useState<Macros>({ ...GOALS.maintain.macros });
@@ -180,7 +180,7 @@ function Calculator() {
             <p className="text-xs text-ink-muted">An estimate only — not medical advice. A coach can tailor this to you.</p>
           </>
         ) : (
-          <p>Enter your age (13–100), height (120–230 cm) and weight (30–300 kg).</p>
+          <p className="text-ink-muted">Enter your age, height (cm) and weight (kg) to see your daily calories and macros.</p>
         )}
       </div>
     </div>

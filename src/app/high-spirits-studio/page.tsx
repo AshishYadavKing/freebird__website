@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const WHY = [
   { t: "Professional equipment", d: "Top-tier microphones, mixers and audio interfaces capture every word with crystal clarity." },
   { t: "Soundproof isolation", d: "Our soundproof room removes background noise for a clean, polished sound." },
-  { t: "A creative space", d: "Customisable lighting and acoustics, plus a comfortable lounge, so you can focus on your content." },
+  { t: "A creative space", d: "Customizable lighting and acoustics, plus a comfortable lounge, so you can focus on your content." },
   { t: "Expert help on site", d: "Our audio team helps with setup, recording and anything technical — no tech skills needed." },
   { t: "Flexible booking", d: "Book by the hour, half-day, full day, or monthly for regular access. No long-term commitment." },
   { t: "Editing & post-production", d: "Optional professional editing, so you walk out ready to publish." },
@@ -31,7 +31,7 @@ export default function StudioPage() {
   return (
     <>
       <PageHero eyebrow="High Spirits Studio" title="Rent our podcast studio" image>
-        Bring your voice to life in Free Bird’s professional-grade podcast studio — everything you need to record, produce and edit, without setting up your own space.
+        Bring your voice to life in Free Bird’s professional-grade podcast studio at our Brampton club, 284 Orenda Rd — everything you need to record, produce and edit, without setting up your own space.
       </PageHero>
 
       <section className="container-site flex flex-col gap-8 py-16">

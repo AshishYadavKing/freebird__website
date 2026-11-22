@@ -301,7 +301,9 @@ function tierLabel(t: ClubPlansData["tiers"][number]) {
   return fullPlanLabel(t.plan.name, t.price);
 }
 
-function PlanPicker({ clubs, onPick }: { clubs: ClubPlansData[]; onPick: (s: Selection) => void }) {
+function PlanPicker({ clubs: all, onPick }: { clubs: ClubPlansData[]; onPick: (s: Selection) => void }) {
+  // Only clubs that sell memberships online (Brampton is personal training: free consult first).
+  const clubs = all.filter((c) => c.online && c.tiers.length > 0);
   const [clubIdx, setClubIdx] = useState(0);
   const club = clubs[clubIdx];
   if (!club) return <p className="card">No plans are available online right now. Please <Link href="/contact" className="text-sky underline">contact us</Link>.</p>;
@@ -309,25 +311,17 @@ function PlanPicker({ clubs, onPick }: { clubs: ClubPlansData[]; onPick: (s: Sel
   return (
     <div className="flex flex-col gap-6">
       <h1 className="h-display text-5xl">Choose your club &amp; plan</h1>
-      <div role="group" aria-label="Club" className="flex flex-wrap gap-3">
+      {clubs.length > 1 && <div role="group" aria-label="Club" className="flex flex-wrap gap-3">
         {clubs.map((c, i) => (
           <button key={c.branchId} type="button" aria-pressed={i === clubIdx} onClick={() => setClubIdx(i)}
             className={`rounded-[14px] border-2 px-5 py-3 text-left font-bold ${i === clubIdx ? "border-fire bg-[#FFF4EB]" : "border-line bg-white"}`}>
             {c.name}
           </button>
         ))}
-      </div>
+      </div>}
+      <p className="text-sm text-muted">Training at Brampton? <Link href="/personal-training#intake" className="font-semibold text-sky underline">Start with a free consultation</Link>.</p>
       {!club.online ? (
         <p className="card text-ink-soft">Online sign-up isn’t open at {club.name} yet. Please visit or call the club to join.</p>
-      ) : club.tiers.length === 0 ? (
-        <div className="card flex flex-col gap-4">
-          <p className="text-lg font-bold">{club.name} memberships start with a free consultation</p>
-          <p className="text-ink-soft">{club.name} is our personal-training studio. Tell us your goals and a coach will recommend the right plan for you.</p>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/personal-training#intake" className="btn-primary">Book a free consultation</Link>
-            <Link href="/locations" className="btn-secondary">Call the club</Link>
-          </div>
-        </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2">
           {club.tiers.map((t) => (

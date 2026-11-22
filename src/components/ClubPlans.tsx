@@ -35,7 +35,11 @@ export function ClubPlans({ clubs }: { clubs: ClubPlansData[] }) {
           {club.tiers.map((t, i) => <PlanCard key={t.price.id} tier={t} branchId={club.branchId} featured={i === 0} />)}
         </div>
       ) : (
-        <p className="card text-center text-ink-soft">No plans are listed online for {club.name} right now. Please call the club for pricing.</p>
+        <div className="card flex flex-col items-center gap-3 text-center">
+          <p className="text-lg font-bold">{club.name} is our personal-training studio</p>
+          <p className="text-ink-soft">Training plans start with a free consultation, where a coach recommends the right package for you.</p>
+          <a href="/personal-training#intake" className="btn-primary">Book a free consultation</a>
+        </div>
       )}
     </div>
   );

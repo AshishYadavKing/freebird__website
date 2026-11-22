@@ -21,7 +21,7 @@ export default function LocationsPage() {
       <section className="container-site pb-20">
         <div className="flex flex-wrap items-center justify-between gap-4 rounded-[24px] bg-ink p-8 text-ink-text">
           <h2 className="h-display text-4xl">Not sure which club?</h2>
-          <Link href="/free-pass" className="btn-primary">Try both — free 3-day pass</Link>
+          <Link href="/free-pass" className="btn-primary">Try Mississauga free for 3 days</Link>
         </div>
       </section>
     </>

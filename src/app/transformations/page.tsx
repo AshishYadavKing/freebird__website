@@ -21,7 +21,7 @@ export default function TransformationsPage() {
         {STORIES.map((s) => (
           <figure key={s.img} className="card !p-4">
             <Image src={s.img} alt={s.alt} width={640} height={640} className="w-full rounded-[14px] object-cover" />
-            {s.caption && <figcaption className="mt-3 text-sm text-muted">{s.caption}</figcaption>}
+            <figcaption className="mt-3 text-sm text-muted">{s.caption ? `${s.caption} · ` : ""}Individual results vary.</figcaption>
           </figure>
         ))}
       </section>

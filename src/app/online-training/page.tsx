@@ -16,7 +16,7 @@ const STATS = [
 
 const FEATURES = [
   { t: "Your coach in your pocket", d: "Chat with your coach and get feedback in the Free Bird app." },
-  { t: "Workouts built for you", d: "Programmes that match your goals, equipment and schedule — at home, at work or at the gym." },
+  { t: "Workouts built for you", d: "Programs that match your goals, equipment and schedule — at home, at work or at the gym." },
   { t: "Meal plans & tracking", d: "Nutrition guidance, a food diary and progress photos to keep you on track." },
 ];
 

@@ -7,7 +7,7 @@ import { getClubs, getPlans } from "@/lib/crm";
 export const revalidate = 300;
 export const metadata: Metadata = {
   title: "Memberships & prices",
-  description: "Free Bird Gym membership plans for Mississauga and Brampton. Join online in minutes — monthly, bi-weekly and paid-in-full options.",
+  description: "Free Bird Gym membership plans for Mississauga and Brampton. Join online in minutes — bi-weekly, 3-month and prepaid options.",
 };
 
 const FAQ = [

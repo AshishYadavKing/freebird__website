@@ -33,7 +33,7 @@ export default async function Home() {
         <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/75 to-ink/20" />
         <div className="hero-in container-site relative flex flex-col gap-7 pb-20 pt-24 sm:pt-28">
           <p className="font-display text-lg font-bold uppercase tracking-[0.14em] text-fire-light">{SITE.years} years of building muscle</p>
-          <h1 className="h-display max-w-3xl text-6xl sm:text-8xl lg:text-[112px]">Fly with<br />high spirits.</h1>
+          <h1 className="h-display max-w-3xl text-6xl sm:text-8xl lg:text-[112px]">Fly with{" "}<br />high spirits.</h1>
           <p className="max-w-xl text-lg text-[#DDE2EA] sm:text-xl">
             Mississauga’s cleanest 24/7 gym and a personal-training studio in Brampton. Custom-built strength equipment, real coaches, and never an overcrowded floor.
           </p>
@@ -113,6 +113,7 @@ export default async function Home() {
             <p className="eyebrow">Real transformations</p>
             <h2 className="h-section">We deliver what we promise.</h2>
             <p className="lead">Personal coaching, a plan built for your body, and weekly check-ins that keep you on track.</p>
+            <p className="text-sm text-subtle">Individual results vary.</p>
             <div className="flex flex-wrap gap-3">
               <Link href="/transformations" className="btn-secondary">See transformations</Link>
               <Link href="/personal-training" className="btn-secondary">Start with a free consult</Link>

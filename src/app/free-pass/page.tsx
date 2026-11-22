@@ -14,7 +14,7 @@ export default async function FreePassPage() {
   return (
     <>
       <PageHero eyebrow="Free pass" title="Try us free for 3 days" image>
-        No payment, no pressure. Tell us where you’d like to train and our front desk will contact you to activate your pass.
+        No payment, no pressure. Try our 24/7 Mississauga gym for 3 days — our front desk will contact you to activate your pass.
       </PageHero>
       <section className="container-site py-16">
         <div className="card max-w-3xl">

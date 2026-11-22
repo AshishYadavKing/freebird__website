@@ -7,7 +7,7 @@ export const revalidate = 300;
 export const metadata: Metadata = { title: "Corporate memberships", description: "Group gym memberships for your team in Mississauga and Brampton. One invoice, team rates." };
 
 const OFFER = [
-  "State-of-the-art equipment", "24/7 access to the facility", "Customised fitness programmes", "Fitness challenges and events",
+  "State-of-the-art equipment", "24/7 access to the facility", "Customized fitness programs", "Fitness challenges and events",
   "Sauna, steam and showers", "Group classes", "Preferred membership rate", "Nutrition, supplement & smoothie bar",
   "1 free assessment and 1 free personal training session for each employee", "Library and lounge area",
 ];

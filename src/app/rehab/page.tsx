@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const APPROACHES = [
-  { t: "Manual therapy", s: "Osteopathy, deep tissue, joint mobilisation", d: "Hands-on treatment to release restrictions, reduce pain and restore natural movement." },
+  { t: "Manual therapy", s: "Osteopathy, deep tissue, joint mobilization", d: "Hands-on treatment to release restrictions, reduce pain and restore natural movement." },
   { t: "Corrective exercise", s: "Retraining movement patterns", d: "Guided exercises that rebuild balance, improve mobility and make your progress last." },
   { t: "Performance-based care", s: "Building strength and confidence", d: "Performance drills and strength work that leave you feeling capable and resilient in everyday life." },
 ];

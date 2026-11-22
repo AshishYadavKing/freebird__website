@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LegalPage } from "@/components/LegalPage";
 
 export const revalidate = 3600;
-export const metadata: Metadata = { title: "Refund & cancellation policy" };
+export const metadata: Metadata = { title: "Refund & cancellation policy", description: "Free Bird Gym refund and cancellation terms for memberships, training and store orders." };
 
 export default function Page() {
   return <LegalPage kind="refund" title="Refund & cancellation policy" />;
