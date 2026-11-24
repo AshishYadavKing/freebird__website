@@ -6,6 +6,7 @@
  * browser never sees the API address or the key.
  */
 import "server-only";
+import { connection } from "next/server";
 
 export const API_BASE = (process.env.FREEBIRD_API_URL ?? "http://127.0.0.1:8001/api/v1").replace(/\/+$/, "");
 
@@ -63,9 +64,14 @@ export async function apiGet<T>(path: string, { revalidate = 300, tags }: GetOpt
  * payload in `data` (e.g. the legal pages: {status, title, content}). Null on failure.
  */
 export async function apiGetBody<T extends Record<string, unknown>>(path: string, { revalidate = 300, tags }: GetOptions = {}): Promise<T | null> {
+  let res: Response;
   try {
-    const res = await fetch(`${API_BASE}${path}`, { headers: serverHeaders(), next: { revalidate, tags } });
-    if (!res.ok) return null;
+    res = await fetch(`${API_BASE}${path}`, { headers: serverHeaders(), next: { revalidate, tags } });
+  } catch {
+    return crmUnavailable();
+  }
+  if (!res.ok) return transient(res.status) ? crmUnavailable() : null;
+  try {
     const body = (await res.json()) as T & { status?: boolean };
     return body.status === false ? null : body;
   } catch {
@@ -77,7 +83,25 @@ export async function apiGetBody<T extends Record<string, unknown>>(path: string
 export async function apiGetSafe<T>(path: string, opts?: GetOptions): Promise<T | null> {
   try {
     return await apiGet<T>(path, opts);
-  } catch {
+  } catch (e) {
+    if (!(e instanceof ApiError) || transient(e.status)) return crmUnavailable();
     return null;
   }
+}
+
+/** CRM down, in maintenance (503) or rate-limited (429) — not a real "not found". */
+function transient(status: number): boolean {
+  return status === 429 || status >= 500;
+}
+
+/**
+ * The CRM couldn't be reached. Never let a page be saved (built or refreshed)
+ * with its CRM sections empty: this makes the page render per request instead —
+ * at build time it bails the page out of static generation, and during a
+ * background refresh it aborts the refresh so the last good copy keeps serving.
+ * CRM responses themselves stay cached per fetch, so this costs little.
+ */
+async function crmUnavailable(): Promise<null> {
+  await connection();
+  return null;
 }
